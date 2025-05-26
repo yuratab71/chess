@@ -9,9 +9,9 @@ typedef struct {
 	Rectangle pos;
 	Color color;
 	bool isHover;
-} VBRC; //VisullBoardRepresentationCell
+} VBCR; //VisullBoardRepresentationCell
 
-void InitBoard(int len, VBRC board[len][len], int sWidth, int cSize);
-void DrawBoard(int len, VBRC board[len][len], Vector2 mPos);
+void InitBoard(int len, VBCR board[len][len], int sWidth, int cSize);
+void DrawCell(VBCR cell);
 
 #endif
