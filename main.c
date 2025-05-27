@@ -1,5 +1,7 @@
 #include "board.h"
+#include "figure.h"
 #include "raylib.h"
+#include "textures.h"
 #include "util.h"
 
 #define WINDOW_WIDTH 1280;
@@ -8,8 +10,7 @@
 Vector2 mousePos;
 typedef struct
 {
-    int v;
-    int h;
+    BP bp;
     int figure;
 } FCell;
 
@@ -20,11 +21,11 @@ int main()
     int cSize = CELL_SIZE;
     const int bSize = 8;
 
-    VBCR board[bSize][bSize];
+    BC board[bSize][bSize];
     FCell focusedCell;
-
-    focusedCell.h = 0;
-    focusedCell.v = 0;
+    FT ft;
+    focusedCell.bp.v = 0;
+    focusedCell.bp.h = 0;
 
     // Game objects Init
     InitBoard(bSize, board, sWidth, cSize);
@@ -32,6 +33,9 @@ int main()
     // Raylib System Init
     InitWindow(sWidth, sHeight, "CHESS");
     SetWindowState(FLAG_VSYNC_HINT);
+
+    // LoadGame Textures
+    LoadGameTextures(&ft);
 
     while (!WindowShouldClose())
     {
@@ -47,16 +51,16 @@ int main()
                 board[i][j].isHover = CheckCollisionPointRec(mousePos, board[i][j].pos);
                 if (board[i][j].isHover)
                 {
-                    focusedCell.v = i + 1;
-                    focusedCell.h = j + 1;
+                    focusedCell.bp = board[i][j].bp;
                 };
                 DrawCell(board[i][j]);
             };
         };
 
-        DrawText(TextFormat("%c%d", NumToCharCoordinate(focusedCell.h), focusedCell.v), 10, 70, 15, RAYWHITE);
+        DrawText(TextFormat("%c%d", NumToCharCoordinate(focusedCell.bp.h), focusedCell.bp.v), 10, 70, 15, RAYWHITE);
         EndDrawing();
     };
 
+    UnloadGameTextures(&ft);
     CloseWindow();
 };

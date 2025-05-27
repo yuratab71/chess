@@ -1,7 +1,7 @@
 #include "board.h"
 #include <raylib.h>
 
-void InitBoard(int len, VBCR board[len][len], int sWidth, int cSize)
+void InitBoard(int len, BC board[len][len], int sWidth, int cSize)
 {
     for (int i = 0; i < len; i++) // vertical
     {
@@ -13,12 +13,14 @@ void InitBoard(int len, VBCR board[len][len], int sWidth, int cSize)
             board[i][j].pos.width = cSize;
             board[i][j].pos.height = cSize;
             board[i][j].isHover = false;
+            board[i][j].bp.h = j + 1;
+            board[i][j].bp.v = i + 1;
         };
     };
     return;
 };
 
-void DrawCell(VBCR cell)
+void DrawCell(BC cell)
 {
     DrawRectangleRec(cell.pos, cell.isHover ? GREEN : cell.color);
     return;
