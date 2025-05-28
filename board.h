@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include "textures.h"
 
 #ifndef BOARD_H_
 #define BOARD_H_
@@ -27,9 +28,12 @@ typedef struct {
 	bool isHover;
 	BP bp;
 	int figure;
+	int side;
 } BC; // BoardCell
 
 void InitBoard(int len, BC board[len][len], int sWidth, int cSize);
-void DrawCell(BC cell);
+void InitBoardFigures(int len, BC board[len][len], int pSide);
+void DrawCell(BC *cell);
+void DrawFigure(BC *cell, FT *ft, float scale);
 
 #endif

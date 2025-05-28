@@ -3,12 +3,17 @@
 
 #include <stdbool.h>
 enum FigureType {
-	PAWN,
-	TOWER,
-	OFFICER,
-	HORSE,
+	PAWN = 1,
+	ROOK,
+	BISHOP,
+	KNIGHT,
 	QUEEN,
 	KING
+};
+
+enum SIDE {
+	W = 1,
+	B
 };
 
 #endif

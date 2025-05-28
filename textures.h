@@ -2,6 +2,9 @@
 #define TEXTURES_H_
 
 #include "raylib.h"
+
+#define TEXTURE_SCALE 4.0f;
+
 typedef struct {
 	Texture2D wPawn;
 	Texture2D bPawn;

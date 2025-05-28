@@ -4,7 +4,7 @@
 void LoadGameTextures(FT *ft)
 {
     ft->wPawn = LoadTexture("./assets/16x32 pieces/W_Pawn.png");
-    ft->wPawn = LoadTexture("./assets/16x32 pieces/B_Pawn.png");
+    ft->bPawn = LoadTexture("./assets/16x32 pieces/B_Pawn.png");
 
     ft->wRook = LoadTexture("./assets/16x32 pieces/W_Rook.png");
     ft->bRook = LoadTexture("./assets/16x32 pieces/B_Rook.png");

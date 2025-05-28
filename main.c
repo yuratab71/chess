@@ -24,11 +24,15 @@ int main()
     BC board[bSize][bSize];
     FCell focusedCell;
     FT ft;
+    float ts = TEXTURE_SCALE; // texture scale
     focusedCell.bp.v = 0;
     focusedCell.bp.h = 0;
 
+    int pSide = B;
+
     // Game objects Init
     InitBoard(bSize, board, sWidth, cSize);
+    InitBoardFigures(bSize, board, pSide);
 
     // Raylib System Init
     InitWindow(sWidth, sHeight, "CHESS");
@@ -44,16 +48,17 @@ int main()
         BeginDrawing();
         ClearBackground(BLUE);
 
-        for (int i = 0; i < bSize; i++)
+        for (int i = 0; i < bSize; i++) // vertical
         {
-            for (int j = 0; j < bSize; j++)
+            for (int j = 0; j < bSize; j++) // horizontal
             {
                 board[i][j].isHover = CheckCollisionPointRec(mousePos, board[i][j].pos);
                 if (board[i][j].isHover)
                 {
                     focusedCell.bp = board[i][j].bp;
                 };
-                DrawCell(board[i][j]);
+                DrawCell(&board[i][j]);
+                DrawFigure(&board[i][j], &ft, ts);
             };
         };
 
