@@ -1,5 +1,6 @@
 #include "figure.h"
 #include "util.h"
+#include <stdio.h>
 
 char NumToCharCoordinate(int num)
 {
@@ -60,3 +61,23 @@ char NumToSideName(int num)
         return '0';
     }
 }
+
+int VHToBitmapPos(int v, int h)
+{
+    return (v - 1) * 8 + (h - 1);
+};
+
+void PrintBitboard(Bitboard *bitboard)
+{
+    int k = 0;
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            printf("%d", is_bit_set(*bitboard, k));
+        };
+        printf("\n");
+    };
+
+    return;
+};

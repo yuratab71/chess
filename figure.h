@@ -11,7 +11,7 @@ enum FigureType {
 	KING
 };
 
-enum SIDE {
+enum Team {
 	W = 1,
 	B
 };
