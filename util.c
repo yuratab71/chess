@@ -1,6 +1,7 @@
 #include "figure.h"
 #include "util.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 char NumToCharCoordinate(int num)
 {
@@ -97,7 +98,5 @@ int CheckOutOfBoard(int pos, int target, int motionRange)
             vTarget -= 8;
         }
     };
-    printf("Vt: %d, Vpos^ %d\n", vTarget, vPos);
-    int result = vTarget - vPos;
-    return ((unsigned)((result < 0) ? -result : result)) <= (unsigned)motionRange ? target : -1;
+    return abs(vTarget - vPos) <= motionRange ? target : -1;
 };

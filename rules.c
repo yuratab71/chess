@@ -10,11 +10,14 @@ Bitboard GetBPawnMoves(BitboardMap *map, int pos)
 
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
+
+    // Move forward
     if (!is_bit_set(blacks | whites, target))
     {
         moves |= (1ULL << target);
     };
 
+    // If pawn is on starting position it can move 2cells
     if (pos >= 48 && pos < 56)
     {
         if (!is_bit_set(blacks | whites, target - 8))
@@ -52,7 +55,6 @@ Bitboard GetBKnightMoves(BitboardMap *map, int pos)
 
         pos - 16 + 1, pos - 16 - 1,
     };
-    printf("Pos :%d\n", pos);
     for (int i = 0; i < 8; i++)
     {
         targets[i] = CheckOutOfBoard(pos, targets[i], 2);
