@@ -1,5 +1,6 @@
 #include "bitboard.h"
 #include "rules.h"
+#include "util.h"
 #include <stdio.h>
 
 Bitboard GetBPawnMoves(BitboardMap *map, int pos)
@@ -54,9 +55,10 @@ Bitboard GetBKnightMoves(BitboardMap *map, int pos)
     printf("Pos :%d\n", pos);
     for (int i = 0; i < 8; i++)
     {
-        printf("%d\n", targets[i]);
+        targets[i] = CheckOutOfBoard(pos, targets[i], 2);
         if (targets[i] >= 0 && targets[i] <= 63)
         {
+
             if (!is_bit_set(blacks, targets[i]))
             {
                 moves |= (1ULL << (targets[i]));

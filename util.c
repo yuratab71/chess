@@ -81,3 +81,23 @@ void PrintBitboard(Bitboard *bitboard)
 
     return;
 };
+
+int CheckOutOfBoard(int pos, int target, int motionRange)
+{
+    int vPos = pos;
+    int vTarget = target;
+    for (int i = 0; i < 8; i++)
+    {
+        if (!(vPos >= 0 && vPos <= 7))
+        {
+            vPos -= 8;
+        };
+        if (!(vTarget >= 0 && vTarget <= 7))
+        {
+            vTarget -= 8;
+        }
+    };
+    printf("Vt: %d, Vpos^ %d\n", vTarget, vPos);
+    int result = vTarget - vPos;
+    return ((unsigned)((result < 0) ? -result : result)) <= (unsigned)motionRange ? target : -1;
+};
