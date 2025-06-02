@@ -3,10 +3,16 @@
 #include "util.h"
 #include <stdio.h>
 
-Bitboard GetBPawnMoves(BitboardMap *map, int pos)
+Bitboard GetBPawnMoves(BitboardMap *map, int v, int h)
 {
     Bitboard moves = 0;
+    int pos = VHToBitmapPos(v, h);
+
     int target = pos - 8;
+    if (target < 0 && target > 63)
+    {
+        return moves;
+    };
 
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
@@ -39,8 +45,9 @@ Bitboard GetBPawnMoves(BitboardMap *map, int pos)
     return moves;
 };
 
-Bitboard GetBKnightMoves(BitboardMap *map, int pos)
+Bitboard GetBKnightMoves(BitboardMap *map, int v, int h)
 {
+    int pos = VHToBitmapPos(v, h);
     Bitboard moves = 0;
 
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
@@ -68,5 +75,84 @@ Bitboard GetBKnightMoves(BitboardMap *map, int pos)
         };
     };
 
+    printf("Knight moves");
     return moves;
-}
+};
+
+Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
+{
+    Bitboard moves = 0;
+    int pos = VHToBitmapPos(v, h);
+
+    Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
+    Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
+
+    int VTop = v;
+    int VDown = 8 - v;
+
+    int HRight = 8 - h;
+    int HLeft = h;
+
+    printf("\nVTOp : %d, VDown: %d\n", VTop, VDown);
+    printf("v: %d, h: %d\n", v, h);
+    int k1 = 1;
+    for (int i = 0; i < VTop; i++)
+    {
+        printf("I = %d", i);
+        if (is_bit_set(blacks, pos - 8 * k1))
+        {
+            break;
+        }
+        else
+        {
+            set_bit(&moves, pos - 8 * k1);
+            k1++;
+        };
+    };
+
+    int k2 = 1;
+    for (int i = 0; i < VDown; i++)
+    {
+        if (is_bit_set(blacks, pos + 8 * k2))
+        {
+            break;
+        }
+        else
+        {
+            set_bit(&moves, pos + 8 * k2);
+            k2++;
+        };
+    };
+
+    int k3 = 1;
+    for (int i = 0; i < HRight; i++)
+    {
+        if (is_bit_set(blacks, pos + 1 * k3))
+        {
+            break;
+        }
+        else
+        {
+            set_bit(&moves, pos + 1 * k3);
+            k3++;
+        };
+    };
+
+    int k4 = 1;
+    for (int i = 0; i < HLeft; i++)
+    {
+        if (is_bit_set(blacks, pos - 1 * k4))
+        {
+            break;
+        }
+        else
+        {
+            set_bit(&moves, pos - 1 * k4);
+            k4++;
+        }
+    };
+
+    // TODO add castling
+
+    return moves;
+};

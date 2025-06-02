@@ -27,6 +27,7 @@ int main()
     int sHeight = WINDOW_HEIGHT;
     int cSize = CELL_SIZE;
     const int bSize = 8;
+    bool shouldCalculate = false;
 
     Bitboard possibleMoves = 0;
 
@@ -60,16 +61,25 @@ int main()
         // Visual Board Representation
         // 1a must be black cell with BLACK rook
         mousePos = GetMousePosition();
-        if (!possibleMoves && selectedCell.figure)
+        if (shouldCalculate && selectedCell.figure)
         {
-            if (selectedCell.figure == PAWN)
+            switch (selectedCell.figure)
             {
-                possibleMoves = GetBPawnMoves(&bitmap, VHToBitmapPos(selectedCell.bp.v, selectedCell.bp.h));
-            };
-            if (selectedCell.figure == KNIGHT)
-            {
-                possibleMoves = GetBKnightMoves(&bitmap, VHToBitmapPos(selectedCell.bp.v, selectedCell.bp.h));
-            };
+            case PAWN:
+                possibleMoves = GetBPawnMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                shouldCalculate = false;
+                break;
+            case KNIGHT:
+                possibleMoves = GetBKnightMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                shouldCalculate = false;
+                break;
+            case ROOK:
+                possibleMoves = GetBRookMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                shouldCalculate = false;
+                break;
+            default:
+                break;
+            }
         };
 
         BeginDrawing();
@@ -103,22 +113,17 @@ int main()
         // Input section
         if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
         {
-            printf("Mouse clicked\n");
             if (focusedCell.figure && focusedCell.team == playerTeam)
             {
-                PrintBitboard(&possibleMoves);
+                shouldCalculate = true;
                 selectedCell = focusedCell;
                 possibleMoves = 0;
-
-                printf("Move focused to selected, zeroing the possible moves");
             };
 
             if (is_bit_set(possibleMoves, focusedCell.bitpos))
             {
-                if (selectedCell.figure == PAWN || selectedCell.figure == KNIGHT)
+                if (selectedCell.figure == PAWN || selectedCell.figure == KNIGHT || selectedCell.figure == ROOK)
                 {
-                    PrintBitboard(&possibleMoves);
-                    printf("Origin: %d, target: %d", selectedCell.bitpos, focusedCell.bitpos);
                     DispatchMove(selectedCell.figure, selectedCell.team, &bitmap, selectedCell.bitpos,
                                  focusedCell.bitpos);
                     PopulateBoard(bSize, board, &bitmap);
