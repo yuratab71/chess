@@ -106,14 +106,18 @@ int main()
             printf("Mouse clicked\n");
             if (focusedCell.figure && focusedCell.team == playerTeam)
             {
+                PrintBitboard(&possibleMoves);
                 selectedCell = focusedCell;
                 possibleMoves = 0;
+
+                printf("Move focused to selected, zeroing the possible moves");
             };
 
             if (is_bit_set(possibleMoves, focusedCell.bitpos))
             {
-                if (selectedCell.figure == PAWN)
+                if (selectedCell.figure == PAWN || selectedCell.figure == KNIGHT)
                 {
+                    PrintBitboard(&possibleMoves);
                     printf("Origin: %d, target: %d", selectedCell.bitpos, focusedCell.bitpos);
                     DispatchMove(selectedCell.figure, selectedCell.team, &bitmap, selectedCell.bitpos,
                                  focusedCell.bitpos);
@@ -124,8 +128,6 @@ int main()
                     selectedCell.bitpos = 0;
                     selectedCell.bp.v = 0;
                     selectedCell.bp.h = 0;
-
-                    PrintBitboard(&possibleMoves);
                 };
             };
         };
