@@ -8,6 +8,7 @@ typedef struct {
 } Move;
 
 Bitboard GetBPawnMoves(BitboardMap *map, int pos);
+Bitboard GetBKnightMoves(BitboardMap *map, int pos);
 
 
 #endif 

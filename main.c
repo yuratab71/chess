@@ -66,6 +66,10 @@ int main()
             {
                 possibleMoves = GetBPawnMoves(&bitmap, VHToBitmapPos(selectedCell.bp.v, selectedCell.bp.h));
             };
+            if (selectedCell.figure == KNIGHT)
+            {
+                possibleMoves = GetBKnightMoves(&bitmap, VHToBitmapPos(selectedCell.bp.v, selectedCell.bp.h));
+            };
         };
 
         BeginDrawing();
@@ -86,6 +90,7 @@ int main()
                 };
                 DrawCell(&board[i][j]);
                 DrawFigure(&board[i][j], &ft, ts);
+                DrawText(TextFormat("%d", k), board[i][j].pos.x, board[i][j].pos.y, 45, RED);
                 if (is_bit_set(possibleMoves, k))
                 {
                     DrawCellColor(&board[i][j], RED);
