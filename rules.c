@@ -156,3 +156,80 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
 
     return moves;
 };
+
+Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
+{
+    Bitboard moves = 0;
+    //    int pos = VHToBitmapPos(v, h);
+
+    printf("V: %d, H: %d\n", v, h);
+    Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
+    Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
+
+    int RTop = (v < (8 - h) ? v : 8 - h);
+
+    int LTop = (v < h ? v : h);
+
+    int RDown = ((8 - v) < (8 - h)) ? (8 - v) : (8 - h);
+
+    int LDown = (8 - v) < h ? (8 - v) : h;
+
+    printf("RTop: %d, LTop: %d\n", RTop, LTop);
+    printf("RDown: %d, LDown: %d\n", RDown, LDown);
+    for (int i = 1; i <= RTop; i++)
+    {
+        int target = VHToBitmapPos(v - 1 * i, h + 1 * i);
+        printf("Target: %d\n", target);
+        if (is_bit_set(blacks, target))
+        {
+            break;
+        };
+        set_bit(&moves, target);
+        if (is_bit_set(whites, target))
+        {
+            break;
+        };
+    };
+
+    for (int i = 1; i <= LTop; i++)
+    {
+        int target = VHToBitmapPos(v - 1 * i, h - 1 * i);
+        if (is_bit_set(blacks, target))
+        {
+            break;
+        };
+        set_bit(&moves, target);
+        if (is_bit_set(whites, target))
+        {
+            break;
+        };
+    };
+    for (int i = 1; i <= RDown; i++)
+    {
+        int target = VHToBitmapPos(v + 1 * i, h + 1 * i);
+        if (is_bit_set(blacks, target))
+        {
+            break;
+        };
+        set_bit(&moves, target);
+        if (is_bit_set(whites, target))
+        {
+            break;
+        };
+    };
+    for (int i = 1; i <= LDown; i++)
+    {
+        int target = VHToBitmapPos(v + 1 * i, h - 1 * i);
+        if (is_bit_set(blacks, target))
+        {
+            break;
+        };
+        set_bit(&moves, target);
+        if (is_bit_set(whites, target))
+        {
+            break;
+        };
+    };
+
+    return moves;
+};

@@ -77,6 +77,10 @@ int main()
                 possibleMoves = GetBRookMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
                 shouldCalculate = false;
                 break;
+            case BISHOP:
+                possibleMoves = GetBBishopMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                shouldCalculate = false;
+                break;
             default:
                 break;
             }
@@ -122,7 +126,8 @@ int main()
 
             if (is_bit_set(possibleMoves, focusedCell.bitpos))
             {
-                if (selectedCell.figure == PAWN || selectedCell.figure == KNIGHT || selectedCell.figure == ROOK)
+                if (selectedCell.figure == PAWN || selectedCell.figure == KNIGHT || selectedCell.figure == ROOK ||
+                    selectedCell.figure == BISHOP)
                 {
                     DispatchMove(selectedCell.figure, selectedCell.team, &bitmap, selectedCell.bitpos,
                                  focusedCell.bitpos);
