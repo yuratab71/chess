@@ -86,6 +86,10 @@ int main()
                 possibleMoves = GetBQueenMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
                 shouldCalculate = false;
                 break;
+            case KING:
+                possibleMoves = GetBKingMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                shouldCalculate = false;
+                break;
             default:
                 break;
             }
@@ -131,19 +135,14 @@ int main()
 
             if (is_bit_set(possibleMoves, focusedCell.bitpos))
             {
-                if (selectedCell.figure == PAWN || selectedCell.figure == KNIGHT || selectedCell.figure == ROOK ||
-                    selectedCell.figure == BISHOP || selectedCell.figure == QUEEN)
-                {
-                    DispatchMove(selectedCell.figure, selectedCell.team, &bitmap, selectedCell.bitpos,
-                                 focusedCell.bitpos);
-                    PopulateBoard(bSize, board, &bitmap);
-                    possibleMoves = 0;
-                    selectedCell.figure = 0;
-                    selectedCell.team = 0;
-                    selectedCell.bitpos = 0;
-                    selectedCell.bp.v = 0;
-                    selectedCell.bp.h = 0;
-                };
+                DispatchMove(selectedCell.figure, selectedCell.team, &bitmap, selectedCell.bitpos, focusedCell.bitpos);
+                PopulateBoard(bSize, board, &bitmap);
+                possibleMoves = 0;
+                selectedCell.figure = 0;
+                selectedCell.team = 0;
+                selectedCell.bitpos = 0;
+                selectedCell.bp.v = 0;
+                selectedCell.bp.h = 0;
             };
         };
 

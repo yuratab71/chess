@@ -70,16 +70,14 @@ int VHToBitmapPos(int v, int h)
 
 void PrintBitboard(Bitboard *bitboard)
 {
-    int k = 0;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 64; i++)
     {
-        for (int j = 0; j < 8; j++)
+        printf("%d", is_bit_set(*bitboard, i) ? 1 : 0);
+        if ((i + 1) % 8 == 0)
         {
-            printf("%d", is_bit_set(*bitboard, k));
-        };
-        printf("\n");
+            printf("\n");
+        }
     };
-
     return;
 };
 

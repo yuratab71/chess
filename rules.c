@@ -6,40 +6,33 @@
 Bitboard GetBPawnMoves(BitboardMap *map, int v, int h)
 {
     Bitboard moves = 0;
-    int pos = VHToBitmapPos(v, h);
-
-    int target = pos - 8;
-    if (target < 0 && target > 63)
-    {
-        return moves;
-    };
 
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
 
     // Move forward
-    if (!is_bit_set(blacks | whites, target))
+    if (!is_bit_set(blacks | whites, VHToBitmapPos(v - 1, h)))
     {
-        moves |= (1ULL << target);
+        set_bit(&moves, VHToBitmapPos(v - 1, h));
     };
 
     // If pawn is on starting position it can move 2cells
-    if (pos >= 48 && pos < 56)
+    if (v == 7)
     {
-        if (!is_bit_set(blacks | whites, target - 8))
+        if (!is_bit_set(blacks | whites, VHToBitmapPos(v - 1, h)) &&
+            !is_bit_set(blacks | whites, VHToBitmapPos(v - 2, h)))
         {
-            moves |= (1ULL << (target - 8));
+            set_bit(&moves, VHToBitmapPos(v - 2, h));
         }
     }
 
-    if (is_bit_set(whites, pos - 8 - 1))
+    if ((h - 1) > 0 && is_bit_set(whites, VHToBitmapPos(v - 1, h - 1)))
     {
-        moves |= (1ULL << (pos - 8 - 1));
+        set_bit(&moves, VHToBitmapPos(v - 1, h - 1));
     };
-
-    if (is_bit_set(blacks, pos - 8 + 1))
+    if ((8 - h) > 0 && is_bit_set(whites, VHToBitmapPos(v - 1, h + 1)))
     {
-        moves |= (1ULL << (pos - 8 + 1));
+        set_bit(&moves, VHToBitmapPos(v - 1, h + 1));
     };
 
     return moves;
@@ -51,7 +44,7 @@ Bitboard GetBKnightMoves(BitboardMap *map, int v, int h)
     Bitboard moves = 0;
 
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
-    //    Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
+    Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
 
     int targets[8] = {
         pos + 8 - 2,  pos + 8 + 2,
@@ -75,7 +68,6 @@ Bitboard GetBKnightMoves(BitboardMap *map, int v, int h)
         };
     };
 
-    printf("Knight moves");
     return moves;
 };
 
@@ -93,12 +85,9 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
     int HRight = 8 - h;
     int HLeft = h;
 
-    printf("\nVTOp : %d, VDown: %d\n", VTop, VDown);
-    printf("v: %d, h: %d\n", v, h);
     int k1 = 1;
     for (int i = 0; i < VTop; i++)
     {
-        printf("I = %d", i);
         if (is_bit_set(blacks, pos - 8 * k1))
         {
             break;
@@ -160,9 +149,7 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
 Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
 {
     Bitboard moves = 0;
-    //    int pos = VHToBitmapPos(v, h);
 
-    printf("V: %d, H: %d\n", v, h);
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
 
@@ -174,8 +161,6 @@ Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
 
     int LDown = (8 - v) < h ? (8 - v) : h;
 
-    printf("RTop: %d, LTop: %d\n", RTop, LTop);
-    printf("RDown: %d, LDown: %d\n", RDown, LDown);
     for (int i = 1; i <= RTop; i++)
     {
         int target = VHToBitmapPos(v - 1 * i, h + 1 * i);
@@ -239,6 +224,28 @@ Bitboard GetBQueenMoves(BitboardMap *map, int v, int h)
     Bitboard moves = 0;
 
     moves = GetBBishopMoves(map, v, h) | GetBRookMoves(map, v, h);
+
+    return moves;
+};
+
+Bitboard GetBKingMoves(BitboardMap *map, int v, int h)
+{
+    Bitboard moves = 0;
+
+    Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
+    Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
+
+    int targets[4] = {VHToBitmapPos(v - 1, h), VHToBitmapPos(v + 1, h), VHToBitmapPos(v, h + 1),
+                      VHToBitmapPos(v, h - 1)};
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (is_bit_set(blacks, targets[i]))
+        {
+            break;
+        };
+        set_bit(&moves, targets[i]);
+    };
 
     return moves;
 };

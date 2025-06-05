@@ -2,8 +2,10 @@
 #include "board.h"
 #include "figure.h"
 #include "textures.h"
+#include "util.h"
 #include <iso646.h>
 #include <raylib.h>
+#include <stdio.h>
 
 void InitBoard(int len, VBC board[len][len], int sWidth, int cSize)
 {
@@ -34,6 +36,9 @@ void InitBoard(int len, VBC board[len][len], int sWidth, int cSize)
 
 void PopulateBoard(int len, VBC board[len][len], BitboardMap *map)
 {
+    printf("Populating the board\n");
+    PrintBitboard(&map->bQueen);
+    printf("%llu", map->bQueen);
     int k = 0;
 
     for (int i = 0; i < len; i++)
@@ -100,7 +105,7 @@ void PopulateBoard(int len, VBC board[len][len], BitboardMap *map)
             };
             if (is_bit_set(map->bKing, k))
             {
-                board[i][j].figure = QUEEN;
+                board[i][j].figure = KING;
                 board[i][j].team = B;
             };
 

@@ -90,6 +90,10 @@ void DispatchMove(enum FigureType figure, enum Team team, BitboardMap *map, int 
             set_bit(&map->bQueen, target);
             clear_bit(&map->bQueen, origin);
             break;
+        case KING:
+            set_bit(&map->bKing, target);
+            clear_bit(&map->bKing, origin);
+            break;
         default:
             break;
         };
