@@ -233,3 +233,12 @@ Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
 
     return moves;
 };
+
+Bitboard GetBQueenMoves(BitboardMap *map, int v, int h)
+{
+    Bitboard moves = 0;
+
+    moves = GetBBishopMoves(map, v, h) | GetBRookMoves(map, v, h);
+
+    return moves;
+};

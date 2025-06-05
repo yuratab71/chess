@@ -5,6 +5,7 @@
 #include "rules.h"
 #include "textures.h"
 #include "util.h"
+#include <stdbool.h>
 #include <stdio.h>
 
 #define WINDOW_WIDTH 1280;
@@ -81,6 +82,10 @@ int main()
                 possibleMoves = GetBBishopMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
                 shouldCalculate = false;
                 break;
+            case QUEEN:
+                possibleMoves = GetBQueenMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                shouldCalculate = false;
+                break;
             default:
                 break;
             }
@@ -127,7 +132,7 @@ int main()
             if (is_bit_set(possibleMoves, focusedCell.bitpos))
             {
                 if (selectedCell.figure == PAWN || selectedCell.figure == KNIGHT || selectedCell.figure == ROOK ||
-                    selectedCell.figure == BISHOP)
+                    selectedCell.figure == BISHOP || selectedCell.figure == QUEEN)
                 {
                     DispatchMove(selectedCell.figure, selectedCell.team, &bitmap, selectedCell.bitpos,
                                  focusedCell.bitpos);

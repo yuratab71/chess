@@ -11,5 +11,6 @@ Bitboard GetBPawnMoves(BitboardMap *map, int v, int h);
 Bitboard GetBKnightMoves(BitboardMap *map, int v, int h);
 Bitboard GetBRookMoves(BitboardMap *map, int v, int h);
 Bitboard GetBBishopMoves(BitboardMap *map, int v, int h);
+Bitboard GetBQueenMoves(BitboardMap *map, int v, int h);
 
 #endif 
