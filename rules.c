@@ -44,7 +44,6 @@ Bitboard GetBKnightMoves(BitboardMap *map, int v, int h)
     Bitboard moves = 0;
 
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
-    Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
 
     int targets[8] = {
         pos + 8 - 2,  pos + 8 + 2,
@@ -74,7 +73,6 @@ Bitboard GetBKnightMoves(BitboardMap *map, int v, int h)
 Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
 {
     Bitboard moves = 0;
-    int pos = VHToBitmapPos(v, h);
 
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
@@ -234,7 +232,6 @@ Bitboard GetBKingMoves(BitboardMap *map, int v, int h)
     Bitboard moves = 0;
 
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
-    Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
 
     int VTop = v - 1;
     int VDown = 8 - v;

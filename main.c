@@ -6,7 +6,6 @@
 #include "textures.h"
 #include "util.h"
 #include <stdbool.h>
-#include <stdio.h>
 
 #define WINDOW_WIDTH 1280;
 #define WINDOW_HEIGHT 960;
@@ -37,7 +36,7 @@ int main()
     FCell selectedCell;
 
     FT ft;
-    float ts = TEXTURE_SCALE; // texture scale
+    float ts = TEXTURE_SCALE;
     focusedCell.bp.v = 0;
     focusedCell.bp.h = 0;
 
