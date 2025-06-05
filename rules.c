@@ -79,66 +79,67 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
 
-    int VTop = v;
+    int VTop = v - 1;
     int VDown = 8 - v;
 
     int HRight = 8 - h;
-    int HLeft = h;
+    int HLeft = h - 1;
 
-    int k1 = 1;
-    for (int i = 0; i < VTop; i++)
+    for (int i = 1; i < VTop + 1; i++)
     {
-        if (is_bit_set(blacks, pos - 8 * k1))
+        if (is_bit_set(blacks, VHToBitmapPos(v - i, h)))
         {
             break;
         }
         else
         {
-            set_bit(&moves, pos - 8 * k1);
-            k1++;
+            set_bit(&moves, VHToBitmapPos(v - i, h));
         };
+        if (is_bit_set(whites, VHToBitmapPos(v - i, h)))
+            break;
     };
 
-    int k2 = 1;
-    for (int i = 0; i < VDown; i++)
+    for (int i = 1; i < VDown + 1; i++)
     {
-        if (is_bit_set(blacks, pos + 8 * k2))
+        if (is_bit_set(blacks, VHToBitmapPos(v + i, h)))
         {
             break;
         }
         else
         {
-            set_bit(&moves, pos + 8 * k2);
-            k2++;
+            set_bit(&moves, VHToBitmapPos(v + i, h));
         };
+
+        if (is_bit_set(whites, VHToBitmapPos(v + i, h)))
+            break;
     };
 
-    int k3 = 1;
-    for (int i = 0; i < HRight; i++)
+    for (int i = 1; i < HRight + 1; i++)
     {
-        if (is_bit_set(blacks, pos + 1 * k3))
+        if (is_bit_set(blacks, VHToBitmapPos(v, h + i)))
         {
             break;
         }
         else
         {
-            set_bit(&moves, pos + 1 * k3);
-            k3++;
+            set_bit(&moves, VHToBitmapPos(v, h + i));
         };
+        if (is_bit_set(whites, VHToBitmapPos(v, h + i)))
+            break;
     };
 
-    int k4 = 1;
-    for (int i = 0; i < HLeft; i++)
+    for (int i = 1; i < HLeft + 1; i++)
     {
-        if (is_bit_set(blacks, pos - 1 * k4))
+        if (is_bit_set(blacks, VHToBitmapPos(v, h - i)))
         {
             break;
         }
         else
         {
-            set_bit(&moves, pos - 1 * k4);
-            k4++;
-        }
+            set_bit(&moves, VHToBitmapPos(v, h - i));
+        };
+        if (is_bit_set(whites, VHToBitmapPos(v, h - i)))
+            break;
     };
 
     // TODO add castling
@@ -153,13 +154,13 @@ Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
 
-    int RTop = (v < (8 - h) ? v : 8 - h);
+    int RTop = (v < (8 - h) ? (v - 1) : 8 - h);
 
-    int LTop = (v < h ? v : h);
+    int LTop = (v < h ? v - 1 : h - 1);
 
     int RDown = ((8 - v) < (8 - h)) ? (8 - v) : (8 - h);
 
-    int LDown = (8 - v) < h ? (8 - v) : h;
+    int LDown = (8 - v) < h ? (7 - v) : h - 1;
 
     for (int i = 1; i <= RTop; i++)
     {
@@ -235,16 +236,27 @@ Bitboard GetBKingMoves(BitboardMap *map, int v, int h)
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
 
-    int targets[4] = {VHToBitmapPos(v - 1, h), VHToBitmapPos(v + 1, h), VHToBitmapPos(v, h + 1),
-                      VHToBitmapPos(v, h - 1)};
+    int VTop = v - 1;
+    int VDown = 8 - v;
 
-    for (int i = 0; i < 4; i++)
+    int HRight = 8 - h;
+    int HLeft = h - 1;
+
+    if (VTop && !is_bit_set(blacks, VHToBitmapPos(v - 1, h)))
     {
-        if (is_bit_set(blacks, targets[i]))
-        {
-            break;
-        };
-        set_bit(&moves, targets[i]);
+        set_bit(&moves, VHToBitmapPos(v - 1, h));
+    };
+    if (VDown && !is_bit_set(blacks, VHToBitmapPos(v + 1, h)))
+    {
+        set_bit(&moves, VHToBitmapPos(v + 1, h));
+    };
+    if (HRight && !is_bit_set(blacks, VHToBitmapPos(v, h + 1)))
+    {
+        set_bit(&moves, VHToBitmapPos(v, h + 1));
+    };
+    if (HLeft && !is_bit_set(blacks, VHToBitmapPos(v, h - 1)))
+    {
+        set_bit(&moves, VHToBitmapPos(v, h - 1));
     };
 
     return moves;
