@@ -30,7 +30,7 @@ void InitWhites(BitboardMap *map);
 
 void InitBlacks(BitboardMap *map);
 void DispatchMove(enum FigureType figure, enum Team team, BitboardMap *map, int origin, int target);
-
+void EatEnemyFigure(BitboardMap *map, int target, enum Team team);
 
 #endif
 

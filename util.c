@@ -28,38 +28,37 @@ char NumToCharCoordinate(int num)
     };
 };
 
-char NumToFigureName(int num)
+char *NumToFigureName(int num)
 {
     switch (num)
     {
     case PAWN:
-        return 'P';
+        return "Pawn";
     case ROOK:
-        return 'R';
+        return "Rook";
     case BISHOP:
-        return 'B';
+        return "Bishop";
     case KNIGHT:
-        return 'H';
+        return "Knight";
     case QUEEN:
-        return 'Q';
+        return "Queen";
     case KING:
-        return 'K';
+        return "King";
     default:
-        return '0';
+        return "None";
     };
 };
 
-char NumToSideName(int num)
+char *NumToSideName(int num)
 {
     switch (num)
     {
     case W:
-        return 'W';
+        return "White";
     case B:
-        return 'B';
-
+        return "Black";
     default:
-        return '0';
+        return "None";
     }
 }
 

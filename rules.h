@@ -7,11 +7,11 @@ typedef struct {
 	Bitboard target;
 } Move;
 
-Bitboard GetBPawnMoves(BitboardMap *map, int v, int h);
-Bitboard GetBKnightMoves(BitboardMap *map, int v, int h);
-Bitboard GetBRookMoves(BitboardMap *map, int v, int h);
-Bitboard GetBBishopMoves(BitboardMap *map, int v, int h);
-Bitboard GetBQueenMoves(BitboardMap *map, int v, int h);
-Bitboard GetBKingMoves(BitboardMap *map, int v, int h);
+Bitboard GetPawnMoves(BitboardMap *map, int v, int h, enum Team team);
+Bitboard GetKnightMoves(BitboardMap *map, int v, int h, enum Team team);
+Bitboard GetRookMoves(BitboardMap *map, int v, int h, enum Team team);
+Bitboard GetBishopMoves(BitboardMap *map, int v, int h, enum Team team);
+Bitboard GetQueenMoves(BitboardMap *map, int v, int h, enum Team team);
+Bitboard GetKingMoves(BitboardMap *map, int v, int h, enum Team team);
 
 #endif 

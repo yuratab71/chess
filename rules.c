@@ -1,49 +1,71 @@
 #include "bitboard.h"
+#include "figure.h"
 #include "rules.h"
 #include "util.h"
 #include <stdio.h>
 
-Bitboard GetBPawnMoves(BitboardMap *map, int v, int h)
+Bitboard GetPawnMoves(BitboardMap *map, int v, int h, enum Team team)
 {
     Bitboard moves = 0;
+    Bitboard enemy, allies;
+    int VTop, VTop2, VStart;
+
+    int T = (team == B) ? -1 : 1;
+    VStart = (team == B) ? 7 : 2;
+
+    VTop = v + (1 * T);
+    VTop2 = v + (2 * T);
 
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
 
-    // Move forward
-    if (!is_bit_set(blacks | whites, VHToBitmapPos(v - 1, h)))
+    if (team == B)
     {
-        set_bit(&moves, VHToBitmapPos(v - 1, h));
+        allies = blacks;
+        enemy = whites;
+    };
+    if (team == W)
+    {
+        allies = whites;
+        enemy = blacks;
+    };
+
+    // Move forward
+    if (!is_bit_set(allies | enemy, VHToBitmapPos(VTop, h)))
+    {
+        set_bit(&moves, VHToBitmapPos(VTop, h));
     };
 
     // If pawn is on starting position it can move 2cells
-    if (v == 7)
+    if (v == VStart)
     {
-        if (!is_bit_set(blacks | whites, VHToBitmapPos(v - 1, h)) &&
-            !is_bit_set(blacks | whites, VHToBitmapPos(v - 2, h)))
+        if (!is_bit_set(enemy | allies, VHToBitmapPos(VTop, h)) && !is_bit_set(allies | enemy, VHToBitmapPos(VTop2, h)))
         {
-            set_bit(&moves, VHToBitmapPos(v - 2, h));
+            set_bit(&moves, VHToBitmapPos(VTop2, h));
         }
     }
 
-    if ((h - 1) > 0 && is_bit_set(whites, VHToBitmapPos(v - 1, h - 1)))
+    if ((h - 1) > 0 && is_bit_set(enemy, VHToBitmapPos(VTop, h - 1)))
     {
-        set_bit(&moves, VHToBitmapPos(v - 1, h - 1));
+        set_bit(&moves, VHToBitmapPos(VTop, h - 1));
     };
-    if ((8 - h) > 0 && is_bit_set(whites, VHToBitmapPos(v - 1, h + 1)))
+    if ((8 - h) > 0 && is_bit_set(enemy, VHToBitmapPos(VTop, h + 1)))
     {
-        set_bit(&moves, VHToBitmapPos(v - 1, h + 1));
+        set_bit(&moves, VHToBitmapPos(VTop, h + 1));
     };
 
     return moves;
 };
 
-Bitboard GetBKnightMoves(BitboardMap *map, int v, int h)
+Bitboard GetKnightMoves(BitboardMap *map, int v, int h, enum Team team)
 {
     int pos = VHToBitmapPos(v, h);
     Bitboard moves = 0;
-
+    Bitboard allies;
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
+    Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
+
+    allies = team == B ? blacks : whites;
 
     int targets[8] = {
         pos + 8 - 2,  pos + 8 + 2,
@@ -60,7 +82,7 @@ Bitboard GetBKnightMoves(BitboardMap *map, int v, int h)
         if (targets[i] >= 0 && targets[i] <= 63)
         {
 
-            if (!is_bit_set(blacks, targets[i]))
+            if (!is_bit_set(allies, targets[i]))
             {
                 moves |= (1ULL << (targets[i]));
             };
@@ -70,12 +92,22 @@ Bitboard GetBKnightMoves(BitboardMap *map, int v, int h)
     return moves;
 };
 
-Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
+Bitboard GetRookMoves(BitboardMap *map, int v, int h, enum Team team)
 {
     Bitboard moves = 0;
-
+    Bitboard allies, enemy;
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
+    if (team == B)
+    {
+        allies = blacks;
+        enemy = whites;
+    };
+    if (team == W)
+    {
+        allies = whites;
+        enemy = blacks;
+    };
 
     int VTop = v - 1;
     int VDown = 8 - v;
@@ -85,7 +117,7 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
 
     for (int i = 1; i < VTop + 1; i++)
     {
-        if (is_bit_set(blacks, VHToBitmapPos(v - i, h)))
+        if (is_bit_set(allies, VHToBitmapPos(v - i, h)))
         {
             break;
         }
@@ -93,13 +125,13 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
         {
             set_bit(&moves, VHToBitmapPos(v - i, h));
         };
-        if (is_bit_set(whites, VHToBitmapPos(v - i, h)))
+        if (is_bit_set(enemy, VHToBitmapPos(v - i, h)))
             break;
     };
 
     for (int i = 1; i < VDown + 1; i++)
     {
-        if (is_bit_set(blacks, VHToBitmapPos(v + i, h)))
+        if (is_bit_set(allies, VHToBitmapPos(v + i, h)))
         {
             break;
         }
@@ -108,13 +140,13 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
             set_bit(&moves, VHToBitmapPos(v + i, h));
         };
 
-        if (is_bit_set(whites, VHToBitmapPos(v + i, h)))
+        if (is_bit_set(enemy, VHToBitmapPos(v + i, h)))
             break;
     };
 
     for (int i = 1; i < HRight + 1; i++)
     {
-        if (is_bit_set(blacks, VHToBitmapPos(v, h + i)))
+        if (is_bit_set(allies, VHToBitmapPos(v, h + i)))
         {
             break;
         }
@@ -122,13 +154,13 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
         {
             set_bit(&moves, VHToBitmapPos(v, h + i));
         };
-        if (is_bit_set(whites, VHToBitmapPos(v, h + i)))
+        if (is_bit_set(enemy, VHToBitmapPos(v, h + i)))
             break;
     };
 
     for (int i = 1; i < HLeft + 1; i++)
     {
-        if (is_bit_set(blacks, VHToBitmapPos(v, h - i)))
+        if (is_bit_set(allies, VHToBitmapPos(v, h - i)))
         {
             break;
         }
@@ -136,7 +168,7 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
         {
             set_bit(&moves, VHToBitmapPos(v, h - i));
         };
-        if (is_bit_set(whites, VHToBitmapPos(v, h - i)))
+        if (is_bit_set(enemy, VHToBitmapPos(v, h - i)))
             break;
     };
 
@@ -145,12 +177,22 @@ Bitboard GetBRookMoves(BitboardMap *map, int v, int h)
     return moves;
 };
 
-Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
+Bitboard GetBishopMoves(BitboardMap *map, int v, int h, enum Team team)
 {
     Bitboard moves = 0;
-
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
+    Bitboard allies, enemy;
+    if (team == B)
+    {
+        allies = blacks;
+        enemy = whites;
+    };
+    if (team == W)
+    {
+        allies = whites;
+        enemy = blacks;
+    };
 
     int RTop = (v < (8 - h) ? (v - 1) : 8 - h);
 
@@ -163,13 +205,12 @@ Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
     for (int i = 1; i <= RTop; i++)
     {
         int target = VHToBitmapPos(v - 1 * i, h + 1 * i);
-        printf("Target: %d\n", target);
-        if (is_bit_set(blacks, target))
+        if (is_bit_set(allies, target))
         {
             break;
         };
         set_bit(&moves, target);
-        if (is_bit_set(whites, target))
+        if (is_bit_set(enemy, target))
         {
             break;
         };
@@ -178,12 +219,12 @@ Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
     for (int i = 1; i <= LTop; i++)
     {
         int target = VHToBitmapPos(v - 1 * i, h - 1 * i);
-        if (is_bit_set(blacks, target))
+        if (is_bit_set(allies, target))
         {
             break;
         };
         set_bit(&moves, target);
-        if (is_bit_set(whites, target))
+        if (is_bit_set(enemy, target))
         {
             break;
         };
@@ -191,12 +232,12 @@ Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
     for (int i = 1; i <= RDown; i++)
     {
         int target = VHToBitmapPos(v + 1 * i, h + 1 * i);
-        if (is_bit_set(blacks, target))
+        if (is_bit_set(allies, target))
         {
             break;
         };
         set_bit(&moves, target);
-        if (is_bit_set(whites, target))
+        if (is_bit_set(enemy, target))
         {
             break;
         };
@@ -204,12 +245,12 @@ Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
     for (int i = 1; i <= LDown; i++)
     {
         int target = VHToBitmapPos(v + 1 * i, h - 1 * i);
-        if (is_bit_set(blacks, target))
+        if (is_bit_set(allies, target))
         {
             break;
         };
         set_bit(&moves, target);
-        if (is_bit_set(whites, target))
+        if (is_bit_set(enemy, target))
         {
             break;
         };
@@ -218,40 +259,48 @@ Bitboard GetBBishopMoves(BitboardMap *map, int v, int h)
     return moves;
 };
 
-Bitboard GetBQueenMoves(BitboardMap *map, int v, int h)
+Bitboard GetQueenMoves(BitboardMap *map, int v, int h, enum Team team)
 {
     Bitboard moves = 0;
 
-    moves = GetBBishopMoves(map, v, h) | GetBRookMoves(map, v, h);
+    moves = GetBishopMoves(map, v, h, team) | GetRookMoves(map, v, h, team);
 
     return moves;
 };
 
-Bitboard GetBKingMoves(BitboardMap *map, int v, int h)
+Bitboard GetKingMoves(BitboardMap *map, int v, int h, enum Team team)
 {
     Bitboard moves = 0;
-
+    Bitboard allies;
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
-
+    Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
+    if (team == B)
+    {
+        allies = blacks;
+    };
+    if (team == W)
+    {
+        allies = whites;
+    };
     int VTop = v - 1;
     int VDown = 8 - v;
 
     int HRight = 8 - h;
     int HLeft = h - 1;
 
-    if (VTop && !is_bit_set(blacks, VHToBitmapPos(v - 1, h)))
+    if (VTop && !is_bit_set(allies, VHToBitmapPos(v - 1, h)))
     {
         set_bit(&moves, VHToBitmapPos(v - 1, h));
     };
-    if (VDown && !is_bit_set(blacks, VHToBitmapPos(v + 1, h)))
+    if (VDown && !is_bit_set(allies, VHToBitmapPos(v + 1, h)))
     {
         set_bit(&moves, VHToBitmapPos(v + 1, h));
     };
-    if (HRight && !is_bit_set(blacks, VHToBitmapPos(v, h + 1)))
+    if (HRight && !is_bit_set(allies, VHToBitmapPos(v, h + 1)))
     {
         set_bit(&moves, VHToBitmapPos(v, h + 1));
     };
-    if (HLeft && !is_bit_set(blacks, VHToBitmapPos(v, h - 1)))
+    if (HLeft && !is_bit_set(allies, VHToBitmapPos(v, h - 1)))
     {
         set_bit(&moves, VHToBitmapPos(v, h - 1));
     };

@@ -36,9 +36,7 @@ void InitBoard(int len, VBC board[len][len], int sWidth, int cSize)
 
 void PopulateBoard(int len, VBC board[len][len], BitboardMap *map)
 {
-    printf("Populating the board\n");
-    PrintBitboard(&map->bQueen);
-    printf("%llu", map->bQueen);
+    PrintBitboard(&map->wPawns);
     int k = 0;
 
     for (int i = 0; i < len; i++)

@@ -99,8 +99,59 @@ void DispatchMove(enum FigureType figure, enum Team team, BitboardMap *map, int 
         };
         break;
     case W:
+        switch (figure)
+        {
+        case PAWN:
+            set_bit(&map->wPawns, target);
+            clear_bit(&map->wPawns, origin);
+            break;
+        case KNIGHT:
+            set_bit(&map->wKnights, target);
+            clear_bit(&map->wKnights, origin);
+            break;
+        case ROOK:
+            set_bit(&map->wRooks, target);
+            clear_bit(&map->wRooks, origin);
+            break;
+        case BISHOP:
+            set_bit(&map->wBishops, target);
+            clear_bit(&map->wBishops, origin);
+            break;
+        case QUEEN:
+            set_bit(&map->wQueen, target);
+            clear_bit(&map->wQueen, origin);
+            break;
+        case KING:
+            set_bit(&map->wKing, target);
+            clear_bit(&map->wKing, origin);
+            break;
+        default:
+            break;
+        };
         break;
     default:
         break;
     };
+};
+
+void EatEnemyFigure(BitboardMap *map, int target, enum Team team)
+{
+    if (team == B)
+    {
+        clear_bit(&map->wPawns, target);
+        clear_bit(&map->wRooks, target);
+        clear_bit(&map->wKnights, target);
+        clear_bit(&map->wBishops, target);
+        clear_bit(&map->wQueen, target);
+        clear_bit(&map->wKing, target);
+    }
+    else
+    {
+        clear_bit(&map->bPawns, target);
+        clear_bit(&map->bRooks, target);
+        clear_bit(&map->bKnights, target);
+        clear_bit(&map->bBishops, target);
+        clear_bit(&map->bQueen, target);
+        clear_bit(&map->bKing, target);
+    }
 };

@@ -40,7 +40,7 @@ int main()
     focusedCell.bp.v = 0;
     focusedCell.bp.h = 0;
 
-    int playerTeam = B;
+    int playerTeam = W;
 
     // Game objects Init
     InitBoard(bSize, board, sWidth, cSize);
@@ -66,27 +66,27 @@ int main()
             switch (selectedCell.figure)
             {
             case PAWN:
-                possibleMoves = GetBPawnMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                possibleMoves = GetPawnMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h, playerTeam);
                 shouldCalculate = false;
                 break;
             case KNIGHT:
-                possibleMoves = GetBKnightMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                possibleMoves = GetKnightMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h, playerTeam);
                 shouldCalculate = false;
                 break;
             case ROOK:
-                possibleMoves = GetBRookMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                possibleMoves = GetRookMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h, playerTeam);
                 shouldCalculate = false;
                 break;
             case BISHOP:
-                possibleMoves = GetBBishopMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                possibleMoves = GetBishopMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h, playerTeam);
                 shouldCalculate = false;
                 break;
             case QUEEN:
-                possibleMoves = GetBQueenMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                possibleMoves = GetQueenMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h, playerTeam);
                 shouldCalculate = false;
                 break;
             case KING:
-                possibleMoves = GetBKingMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h);
+                possibleMoves = GetKingMoves(&bitmap, selectedCell.bp.v, selectedCell.bp.h, playerTeam);
                 shouldCalculate = false;
                 break;
             default:
@@ -123,6 +123,10 @@ int main()
         // End of VISUAL BOARD REPRESENTATION
 
         // Input section
+        if (IsKeyReleased(KEY_SPACE))
+        {
+            playerTeam = playerTeam == B ? W : B;
+        };
         if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
         {
             if (focusedCell.figure && focusedCell.team == playerTeam)
@@ -135,6 +139,7 @@ int main()
             if (is_bit_set(possibleMoves, focusedCell.bitpos))
             {
                 DispatchMove(selectedCell.figure, selectedCell.team, &bitmap, selectedCell.bitpos, focusedCell.bitpos);
+                EatEnemyFigure(&bitmap, focusedCell.bitpos, playerTeam);
                 PopulateBoard(bSize, board, &bitmap);
                 possibleMoves = 0;
                 selectedCell.figure = 0;
@@ -147,11 +152,12 @@ int main()
 
         // Draw System Info, debugging and visualization
         DrawText(TextFormat("%c%d", NumToCharCoordinate(focusedCell.bp.h), focusedCell.bp.v), 2, 15, 25, BLACK);
-        DrawText(TextFormat("Focused: %c %c", NumToSideName(focusedCell.team), NumToFigureName(focusedCell.figure)), 2,
+        DrawText(TextFormat("Focused: %s %s", NumToSideName(focusedCell.team), NumToFigureName(focusedCell.figure)), 2,
                  35, 25, BLACK);
-        DrawText(TextFormat("Selected: %c %c", NumToSideName(selectedCell.team), NumToFigureName(selectedCell.figure)),
+        DrawText(TextFormat("Selected: %s %s", NumToSideName(selectedCell.team), NumToFigureName(selectedCell.figure)),
                  2, 55, 25, BLACK);
         DrawText(TextFormat("Bitpos - %d", focusedCell.bitpos), 2, 75, 25, BLACK);
+        DrawText(TextFormat("%s", NumToSideName(playerTeam)), 2, 95, 25, BLACK);
         EndDrawing();
     };
 
