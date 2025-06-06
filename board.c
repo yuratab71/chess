@@ -49,62 +49,62 @@ void PopulateBoard(int len, VBC board[len][len], BitboardMap *map)
             if (is_bit_set(map->wPawns, k))
             {
                 board[i][j].figure = PAWN;
-                board[i][j].team = W;
+                board[i][j].team = WHITES;
             };
             if (is_bit_set(map->bPawns, k))
             {
                 board[i][j].figure = PAWN;
-                board[i][j].team = B;
+                board[i][j].team = BLACKS;
             };
             if (is_bit_set(map->wKnights, k))
             {
                 board[i][j].figure = KNIGHT;
-                board[i][j].team = W;
+                board[i][j].team = WHITES;
             };
             if (is_bit_set(map->bKnights, k))
             {
                 board[i][j].figure = KNIGHT;
-                board[i][j].team = B;
+                board[i][j].team = BLACKS;
             };
             if (is_bit_set(map->wRooks, k))
             {
                 board[i][j].figure = ROOK;
-                board[i][j].team = W;
+                board[i][j].team = WHITES;
             };
             if (is_bit_set(map->bRooks, k))
             {
                 board[i][j].figure = ROOK;
-                board[i][j].team = B;
+                board[i][j].team = BLACKS;
             };
             if (is_bit_set(map->wBishops, k))
             {
                 board[i][j].figure = BISHOP;
-                board[i][j].team = W;
+                board[i][j].team = WHITES;
             };
             if (is_bit_set(map->bBishops, k))
             {
                 board[i][j].figure = BISHOP;
-                board[i][j].team = B;
+                board[i][j].team = BLACKS;
             };
             if (is_bit_set(map->wQueen, k))
             {
                 board[i][j].figure = QUEEN;
-                board[i][j].team = W;
+                board[i][j].team = WHITES;
             };
             if (is_bit_set(map->bQueen, k))
             {
                 board[i][j].figure = QUEEN;
-                board[i][j].team = B;
+                board[i][j].team = BLACKS;
             };
             if (is_bit_set(map->wKing, k))
             {
                 board[i][j].figure = KING;
-                board[i][j].team = W;
+                board[i][j].team = WHITES;
             };
             if (is_bit_set(map->bKing, k))
             {
                 board[i][j].figure = KING;
-                board[i][j].team = B;
+                board[i][j].team = BLACKS;
             };
 
             k++;
@@ -134,22 +134,22 @@ void DrawFigure(VBC *cell, FT *ft, float scale)
     switch (cell->figure)
     {
     case PAWN:
-        DrawTextureEx(cell->team == W ? ft->wPawn : ft->bPawn, pos, 0.0f, scale, WHITE);
+        DrawTextureEx(cell->team == WHITES ? ft->wPawn : ft->bPawn, pos, 0.0f, scale, WHITE);
         return;
     case ROOK:
-        DrawTextureEx(cell->team == W ? ft->wRook : ft->bRook, pos, 0.0f, scale, WHITE);
+        DrawTextureEx(cell->team == WHITES ? ft->wRook : ft->bRook, pos, 0.0f, scale, WHITE);
         return;
     case BISHOP:
-        DrawTextureEx(cell->team == W ? ft->wBishop : ft->bBishop, pos, 0.0f, scale, WHITE);
+        DrawTextureEx(cell->team == WHITES ? ft->wBishop : ft->bBishop, pos, 0.0f, scale, WHITE);
         return;
     case KNIGHT:
-        DrawTextureEx(cell->team == W ? ft->wKnight : ft->bKnight, pos, 0.0f, scale, WHITE);
+        DrawTextureEx(cell->team == WHITES ? ft->wKnight : ft->bKnight, pos, 0.0f, scale, WHITE);
         return;
     case QUEEN:
-        DrawTextureEx(cell->team == W ? ft->wQueen : ft->bQueen, pos, 0.0f, scale, WHITE);
+        DrawTextureEx(cell->team == WHITES ? ft->wQueen : ft->bQueen, pos, 0.0f, scale, WHITE);
         return;
     case KING:
-        DrawTextureEx(cell->team == W ? ft->wKing : ft->bKing, pos, 0.0f, scale, WHITE);
+        DrawTextureEx(cell->team == WHITES ? ft->wKing : ft->bKing, pos, 0.0f, scale, WHITE);
         return;
     default:
         return;

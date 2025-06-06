@@ -12,8 +12,8 @@ enum FigureType {
 };
 
 enum Team {
-	W = 1,
-	B
+	WHITES = 1,
+	BLACKS
 };
 
 #endif

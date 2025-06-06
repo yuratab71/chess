@@ -53,9 +53,9 @@ char *NumToSideName(int num)
 {
     switch (num)
     {
-    case W:
+    case WHITES:
         return "White";
-    case B:
+    case BLACKS:
         return "Black";
     default:
         return "None";

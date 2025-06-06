@@ -67,7 +67,7 @@ void DispatchMove(enum FigureType figure, enum Team team, BitboardMap *map, int 
 {
     switch (team)
     {
-    case B:
+    case BLACKS:
         switch (figure)
         {
         case PAWN:
@@ -98,7 +98,7 @@ void DispatchMove(enum FigureType figure, enum Team team, BitboardMap *map, int 
             break;
         };
         break;
-    case W:
+    case WHITES:
         switch (figure)
         {
         case PAWN:
@@ -136,7 +136,7 @@ void DispatchMove(enum FigureType figure, enum Team team, BitboardMap *map, int 
 
 void EatEnemyFigure(BitboardMap *map, int target, enum Team team)
 {
-    if (team == B)
+    if (team == BLACKS)
     {
         clear_bit(&map->wPawns, target);
         clear_bit(&map->wRooks, target);

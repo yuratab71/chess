@@ -40,7 +40,7 @@ int main()
     focusedCell.bp.v = 0;
     focusedCell.bp.h = 0;
 
-    int playerTeam = W;
+    int playerTeam = BLACKS;
 
     // Game objects Init
     InitBoard(bSize, board, sWidth, cSize);
@@ -125,7 +125,7 @@ int main()
         // Input section
         if (IsKeyReleased(KEY_SPACE))
         {
-            playerTeam = playerTeam == B ? W : B;
+            playerTeam = playerTeam == BLACKS ? WHITES : BLACKS;
         };
         if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
         {
