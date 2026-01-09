@@ -1,11 +1,11 @@
-#include "bitboard.h"
-#include "board.h"
-#include "figure.h"
-#include "raylib.h"
-#include "rules.h"
-#include "textures.h"
-#include "util.h"
+#include <bitboard.h>
+#include <board.h>
+#include <figure.h>
+#include <raylib.h>
+#include <rules.h>
 #include <stdbool.h>
+#include <textures.h>
+#include <util.h>
 
 #define WINDOW_WIDTH 1280;
 #define WINDOW_HEIGHT 960;
@@ -32,8 +32,8 @@ int main()
     Bitboard possibleMoves = 0;
 
     VBC board[bSize][bSize];
-    FCell focusedCell;
-    FCell selectedCell;
+    FCell focusedCell = {0};
+    FCell selectedCell = {0};
 
     FT ft;
     float ts = TEXTURE_SCALE;

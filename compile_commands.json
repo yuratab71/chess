@@ -1,0 +1,142 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-O2",
+      "-Iinclude",
+      "-std=c99",
+      "-Wall",
+      "-Wextra",
+      "-Wall",
+      "-Werror",
+      "-Iraylib/linux_amd64/include",
+      "-o",
+      "Chess",
+      "src/bitboard.c"
+    ],
+    "directory": "/home/jerry-the-mouse/Projects/chess",
+    "file": "/home/jerry-the-mouse/Projects/chess/src/bitboard.c",
+    "output": "/home/jerry-the-mouse/Projects/chess/Chess"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-O2",
+      "-Iinclude",
+      "-std=c99",
+      "-Wall",
+      "-Wextra",
+      "-Wall",
+      "-Werror",
+      "-Iraylib/linux_amd64/include",
+      "-o",
+      "Chess",
+      "src/board.c"
+    ],
+    "directory": "/home/jerry-the-mouse/Projects/chess",
+    "file": "/home/jerry-the-mouse/Projects/chess/src/board.c",
+    "output": "/home/jerry-the-mouse/Projects/chess/Chess"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-O2",
+      "-Iinclude",
+      "-std=c99",
+      "-Wall",
+      "-Wextra",
+      "-Wall",
+      "-Werror",
+      "-Iraylib/linux_amd64/include",
+      "-o",
+      "Chess",
+      "src/engine.c"
+    ],
+    "directory": "/home/jerry-the-mouse/Projects/chess",
+    "file": "/home/jerry-the-mouse/Projects/chess/src/engine.c",
+    "output": "/home/jerry-the-mouse/Projects/chess/Chess"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-O2",
+      "-Iinclude",
+      "-std=c99",
+      "-Wall",
+      "-Wextra",
+      "-Wall",
+      "-Werror",
+      "-Iraylib/linux_amd64/include",
+      "-o",
+      "Chess",
+      "src/main.c"
+    ],
+    "directory": "/home/jerry-the-mouse/Projects/chess",
+    "file": "/home/jerry-the-mouse/Projects/chess/src/main.c",
+    "output": "/home/jerry-the-mouse/Projects/chess/Chess"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-O2",
+      "-Iinclude",
+      "-std=c99",
+      "-Wall",
+      "-Wextra",
+      "-Wall",
+      "-Werror",
+      "-Iraylib/linux_amd64/include",
+      "-o",
+      "Chess",
+      "src/rules.c"
+    ],
+    "directory": "/home/jerry-the-mouse/Projects/chess",
+    "file": "/home/jerry-the-mouse/Projects/chess/src/rules.c",
+    "output": "/home/jerry-the-mouse/Projects/chess/Chess"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-O2",
+      "-Iinclude",
+      "-std=c99",
+      "-Wall",
+      "-Wextra",
+      "-Wall",
+      "-Werror",
+      "-Iraylib/linux_amd64/include",
+      "-o",
+      "Chess",
+      "src/textures.c"
+    ],
+    "directory": "/home/jerry-the-mouse/Projects/chess",
+    "file": "/home/jerry-the-mouse/Projects/chess/src/textures.c",
+    "output": "/home/jerry-the-mouse/Projects/chess/Chess"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-O2",
+      "-Iinclude",
+      "-std=c99",
+      "-Wall",
+      "-Wextra",
+      "-Wall",
+      "-Werror",
+      "-Iraylib/linux_amd64/include",
+      "-o",
+      "Chess",
+      "src/util.c"
+    ],
+    "directory": "/home/jerry-the-mouse/Projects/chess",
+    "file": "/home/jerry-the-mouse/Projects/chess/src/util.c",
+    "output": "/home/jerry-the-mouse/Projects/chess/Chess"
+  }
+]

@@ -6,7 +6,8 @@
 Bitboard GetPawnMoves(BitboardMap *map, int v, int h, enum Team team)
 {
     Bitboard moves = 0;
-    Bitboard enemy, allies;
+    Bitboard enemy = {0};
+    Bitboard allies = {0};
     int VTop, VTop2, VStart;
 
     int T = (team == BLACKS) ? -1 : 1;
@@ -94,7 +95,8 @@ Bitboard GetKnightMoves(BitboardMap *map, int v, int h, enum Team team)
 Bitboard GetRookMoves(BitboardMap *map, int v, int h, enum Team team)
 {
     Bitboard moves = 0;
-    Bitboard allies, enemy;
+    Bitboard allies = {0};
+    Bitboard enemy = {0};
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
     if (team == BLACKS)
@@ -181,7 +183,8 @@ Bitboard GetBishopMoves(BitboardMap *map, int v, int h, enum Team team)
     Bitboard moves = 0;
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
-    Bitboard allies, enemy;
+    Bitboard allies = {0};
+    Bitboard enemy = {0};
     if (team == BLACKS)
     {
         allies = blacks;
@@ -270,7 +273,7 @@ Bitboard GetQueenMoves(BitboardMap *map, int v, int h, enum Team team)
 Bitboard GetKingMoves(BitboardMap *map, int v, int h, enum Team team)
 {
     Bitboard moves = 0;
-    Bitboard allies;
+    Bitboard allies = {0};
     Bitboard blacks = map->bPawns | map->bKnights | map->bRooks | map->bBishops | map->bQueen | map->bKing;
     Bitboard whites = map->wPawns | map->wKnights | map->wRooks | map->wBishops | map->wQueen | map->wKing;
     if (team == BLACKS)

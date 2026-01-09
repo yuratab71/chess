@@ -1,6 +1,6 @@
 #include <raylib.h>
-#include "bitboard.h"
-#include "textures.h"
+#include <bitboard.h>
+#include <textures.h>
 
 #ifndef BOARD_H_
 #define BOARD_H_
